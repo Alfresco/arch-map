@@ -1,0 +1,35 @@
+@startuml
+
+Title Web Quick Start Model
+
+skinparam linetype ortho
+skinparam titleFontSize 20
+skinparam backgroundColor #EEEEEE
+skinparam objectFontColor blue
+skinparam objectFontSize 20
+skinparam objectFontName Courier
+skinparam objectBackgroundColor #A9DCDF
+
+skinparam defaultFontSize 16
+
+left to right direction
+scale 900 height
+
+object "Web Site" as ws
+object "Section" as s
+object "Rendition" as r
+object "Asset" as a
+object "Asset Collection" as ac
+object "Visitor Feedback" as vf
+
+ws->"0..1" ws: "Publishing Target"
+s->"0..n" s: "Child"
+ws->"1" s: "Root Section"
+s->"0..n" a
+s->"0..n" ac
+a->"0..n" r
+ac->"0..n" a
+a->"0..n" vf
+a->"0..n" a : "related"
+
+@enduml

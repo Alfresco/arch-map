@@ -1,0 +1,37 @@
+@startuml
+
+Title Web Quick Start
+
+skinparam defaultFontSize 20
+skinparam linetype ortho
+skinparam linetype ortho
+skinparam titleFontSize 24
+skinparam backgroundColor #EEEEEE
+skinparam objectBackgroundColor #A9DCDF
+
+
+actor "Web Site Visitor" as V
+actor "Content Editor and \nWeb Producer" as E
+
+node "System" #white {
+
+  node "Alfresco" as A #lightblue {
+    database "Repository" {
+    }
+  }
+  rectangle "Web Preview and\nWeb Edit" as WP {
+  }
+  node "Web App" as W #lightgrey {
+  }
+  node "Share" as S {
+  }
+}
+
+E <-> S
+E <-> WP
+V <-left-> WP
+W <-> A
+S <-> A
+WP <-down-> W
+
+@enduml

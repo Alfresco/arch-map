@@ -1,0 +1,72 @@
+@startuml
+
+Title: Share User Login Request Flow
+
+actor "User" as USER
+boundary "Browser" as BROWSER
+participant "Share" as SHARE #99FF99
+participant "Surf" as SURF #99FF99
+participant "WebScripts" as WEBSCRIPTS #99FF99
+participant "Repository" as REPO #9999FF
+
+USER->BROWSER: Visit Share URL
+activate BROWSER
+BROWSER->SHARE: Page Request GET
+activate SHARE
+SHARE->SURF: Is User Authenticated
+note right of SURF
+Test for existence of authenticated User Session
+end note
+activate SURF
+SURF->SHARE: User Auth Challenge
+deactivate SURF
+SHARE->BROWSER: Redirect Login Page
+deactivate SHARE
+BROWSER->SHARE: Login Page Request GET
+activate SHARE
+SHARE->SURF: Render Login Page Template
+activate SURF
+SURF->SHARE: Login Page Template
+deactivate SURF
+SHARE->BROWSER: Login Page Template Response
+deactivate SHARE
+deactivate BROWSER
+USER->BROWSER: Login Credentials
+activate BROWSER
+BROWSER->SHARE: Login Page Request POST
+activate SHARE
+SHARE->WEBSCRIPTS: User Authentication Attempt
+activate WEBSCRIPTS
+WEBSCRIPTS->REPO: Login Request POST
+activate REPO
+REPO->WEBSCRIPTS: Login Request Response
+deactivate REPO
+note right of WEBSCRIPTS
+Authentication TICKET returned
+end note
+WEBSCRIPTS->SURF: Create User Session Instance
+note left of SURF
+User Instance created in Session, TICKET attached.
+end note
+activate SURF
+SURF->WEBSCRIPTS: User Session Created
+deactivate SURF
+WEBSCRIPTS->SHARE: User Authentication Validated
+deactivate WEBSCRIPTS
+SHARE->BROWSER: Redirect User Start Page
+deactivate SHARE
+BROWSER->SHARE: Page Request GET
+activate SHARE
+SHARE->SURF: Is User Authenticated
+activate SURF
+SURF->SHARE: User Authenticated
+deactivate SURF
+SHARE->SURF: Render Page Template
+activate SURF
+SURF->SHARE: Page Template
+deactivate SURF
+SHARE->BROWSER: Page Template Response
+deactivate SHARE
+deactivate BROWSER
+
+@enduml

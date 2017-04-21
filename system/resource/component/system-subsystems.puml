@@ -1,0 +1,13 @@
+@startuml
+
+skinparam linetype ortho
+
+[Alfresco One] -down-> [Applications]
+[Alfresco One] -down-> [Information Governance]
+[Alfresco One] -down-> [Integrations]
+[Alfresco One] -down-> [Repository]
+[Alfresco One] -down-> [Search and Discovery]
+[Alfresco One] -down-> [Share]
+
+
+@enduml

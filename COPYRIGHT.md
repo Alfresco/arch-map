@@ -1,0 +1,1 @@
+Copyright (C) 2017 Alfresco Software Inc. all rights reserved

@@ -1,0 +1,39 @@
+@startuml
+
+component "Share" #E1F5FE {
+    component "Aikau"
+    component "CM Public API"
+    component "Explorer Client"
+    component "Invitation"
+    component "Legacy REST API"
+    component "Model Management"
+    component "Notification"
+    component "Publishing"
+    component "Share (slingshot)"
+    component "Share App"
+    component "Share Services"
+    component "Surf"
+    component "Web Editor"
+    component "Web Quick Start"
+    component "Web Scripts"
+    component "Share Enablement" #B3E5FC {
+        component "Slingshot REST API"
+        component "Calendar"
+        component "Wiki"
+    }
+    component "Platform Application Services" #B3E5FC {
+        component "Blog"
+        component "Comment"
+        component "Discussion"
+        component "Download"
+        component "Favorites"
+        component "Links"
+        component "Preference"
+        component "QuickShare"
+        component "Activity"
+        component "Rating"
+        component "Site"
+    }
+}
+
+@enduml
