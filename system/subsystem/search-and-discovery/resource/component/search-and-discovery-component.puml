@@ -1,0 +1,86 @@
+@startuml
+
+frame "Solr 4" {
+ () "Query Request Handler" as 4_QAPI
+ () "Admin API" as 4_Admin
+ [Tracker] as 4_TRAC
+} 
+
+frame "Solr 6" {
+ () "Query Request Handler" as 6_QAPI
+ () "Admin API" as 6_Admin
+ [Tracker] as 6_TRAC
+} 
+
+frame "Solr Client" {
+  () "SOLR Client Tracking API" as SCTAPI
+}
+ 
+ 
+frame "Public API" {
+  () "Search Public API" as PSAPI
+}
+
+frame "SOLR Admin Screens" as Admin {
+}
+
+frame "Repository" {
+ () "Attribute Service" as AS
+ frame "Search Subsystem Proxy" {
+  frame "SOLR 6 Search Subsystem" <<Active>>{
+   [Tracking Component] as TC
+   [QueryClient] as QC
+   [QueryLanguage] as QL
+   [Shard Registry] as SR
+   [DBQueryEngine] as DBQE
+   () "Tracking API"  as SS_TAPI
+   () "Search Service" as SS_SS
+   [SOLR Search Service] as SSS
+   () JMX as 6_SS_JMX
+  }
+  frame "SOLR 4 - Search Subsystem" <<Inactive>> {
+   () JMX as 4_SS_JMX
+  }
+ () "Tracking API" as PROXY_TAPI
+ () "Search Service" as PROXY_SS
+ () JMX as PROXY_JMX
+ }
+ () "Tracking API" as TAPI
+ () "Search Service" as SS
+ () JMX as JMX
+ [JScript Search] as JSS
+ [Template Search] as TSS
+}
+ 
+ PSAPI --> SS
+ TSS--> SS
+ JSS--> SS
+ SS --> PROXY_SS
+ PROXY_SS --> SS_SS
+ SS_SS --> SSS
+ SSS --> QL
+ QL --> QC
+ QL --> DBQE
+ QC --> 6_QAPI
+ 
+ 4_TRAC--> SCTAPI 
+ 
+ 6_TRAC--> SCTAPI 
+ SCTAPI --> TAPI
+ TAPI --> PROXY_TAPI
+ PROXY_TAPI -> SS_TAPI
+ SS_TAPI --> TC
+ 
+ QC ..> SR 
+ TC ..> SR
+ SR ..> AS
+ 
+ Admin --> JMX
+ Admin --> 6_Admin
+ Admin --> 4_Admin 
+ JMX ..>  PROXY_JMX
+ JMX ..>  6_SS_JMX
+ JMX ..>  4_SS_JMX
+ 
+ center footer Copyright 2017 Alfresco Software Inc
+@enduml

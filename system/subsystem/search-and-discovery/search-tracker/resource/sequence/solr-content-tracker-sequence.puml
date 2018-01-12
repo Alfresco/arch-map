@@ -1,0 +1,21 @@
+@startuml
+ [-> Scheduler : Initialise on first core load
+ Scheduler -> ContentTracker: Init
+ ...
+ Scheduler -> ContentTracker: Run
+ activate ContentTracker
+ loop  
+    ContentTracker -> ContentTracker: find DIRTY and NEW content
+    loop content
+       ContentTracker -> SOLRAPIClient: getTextContent (Node Id, Property, ...)
+       ContentTracker -> ContentTracker: updateIndex
+    end
+end    
+   
+ 
+ ContentTracker -> Scheduler
+ deactivate ContentTracker
+...
+Scheduler -> ContentTracker: Run
+ center footer Copyright 2017 Alfresco Software Inc
+ @enduml

@@ -1,0 +1,61 @@
+@startuml
+|Repository|
+start
+|Repository|
+:Query;
+if () then (Lucene)
+:Lucene QL;
+:Build SOLR Request;
+:POST .../lucene?...>
+|SOLR|
+:lucene<
+:Parse;
+:Lucene Query;
+|Repository|
+:Filtered Result<
+else if () then (AFTS)
+:Switching AFTS QL;
+if () 
+:SOLR AFTS QL;
+:Build SOLR Request;
+:POST .../afts?...>
+|SOLR|
+:afts<
+:Parse;
+:SOLR Engine;
+:Lucene Query;
+|Repository|
+:Filtered Result<
+else ()
+:DB AFTS QL;
+:Parse;
+:DB Engine;
+:SQL>
+:Unfiltered Result<
+:Filter;
+endif
+else  (CMIS QL)
+:Switching CMIS QL;
+if ()  
+:SOLR CMIS QL;
+:Build SOLR Request;
+:POST .../cmis?...>
+|SOLR|
+:cmis<
+:Parse;
+:SOLR Engine;
+:Lucene Query;
+|Repository|
+:Filtered Result<
+else ()
+:DB CMIS QL;
+:Parse;
+:DB Engine;
+:SQL>
+:Unfiltered Result<
+:Filter;
+endif
+endif
+:Results;
+stop
+@enduml

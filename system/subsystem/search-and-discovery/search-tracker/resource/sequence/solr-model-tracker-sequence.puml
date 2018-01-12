@@ -1,0 +1,26 @@
+ @startuml
+ [-> Scheduler : Initialise on first core load
+ Scheduler -> ModelTracker: Init
+ ModelTracker -> ModelTracker: Load cached models
+ ...
+ Scheduler -> ModelTracker: Run
+ activate ModelTracker
+ ModelTracker -> SOLRAPIClient: getModelChanges(Models + CRCs)
+ activate SOLRAPIClient
+ SOLRAPIClient -> ModelTracker: changedModels
+ deactivate SOLRAPIClient
+ loop changed models
+    ModelTracker -> SOLRAPIClient: getModel
+    activate SOLRAPIClient
+    SOLRAPIClient -> ModelTracker: Model XML
+    deactivate SOLRAPIClient
+ end
+ ModelTracker -> ModelTracker: update local dictionary
+ ModelTracker -> ModelTracker: update cached models
+ ModelTracker -> ModelTracker: intialise model dependencies
+ ModelTracker -> Scheduler
+ deactivate ModelTracker
+...
+Scheduler -> ModelTracker: Run
+ center footer Copyright 2017 Alfresco Software Inc
+ @enduml

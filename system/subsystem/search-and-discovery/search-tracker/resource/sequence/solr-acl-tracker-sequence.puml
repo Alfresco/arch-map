@@ -1,0 +1,36 @@
+@startuml
+ [-> Scheduler : Initialise on first core load
+ Scheduler -> AclTracker: Init
+ ...
+ Scheduler -> AclTracker: Run
+ activate AclTracker
+ AclTracker -> AclTracker: intialise tracker state
+ loop  
+    AclTracker -> SOLRAPIClient: getAclChangeSets (State + a bit)
+    activate SOLRAPIClient
+    SOLRAPIClient -> AclTracker: change sets  + repo state
+    deactivate SOLRAPIClient
+    loop change sets
+       AclTracker -> SOLRAPIClient: getAcls(Change sets)
+       activate SOLRAPIClient
+       SOLRAPIClient -> AclTracker: Acls
+       deactivate SOLRAPIClient
+       loop Acls
+          AclTracker -> SOLRAPIClient: getAclReaders (Acls)
+          activate SOLRAPIClient
+          SOLRAPIClient -> AclTracker: Readers
+          deactivate SOLRAPIClient
+          AclTracker -> AclTracker: updateIndex
+       end
+       AclTracker -> AclTracker: allow commit
+    end
+    AclTracker -> AclTracker: allow commit
+ end
+ AclTracker -> AclTracker: allow commit
+ 
+ AclTracker -> Scheduler
+ deactivate AclTracker
+...
+Scheduler -> AclTracker: Run
+ center footer Copyright 2017 Alfresco Software Inc
+ @enduml

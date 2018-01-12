@@ -1,0 +1,36 @@
+@startuml
+ [-> Scheduler : Initialise on first core load
+ Scheduler -> MetadataTracker: Init
+ ...
+ Scheduler -> MetadataTracker: Run
+ activate MetadataTracker
+ MetadataTracker -> MetadataTracker: intialise tracker state
+ loop  
+    MetadataTracker -> SOLRAPIClient: getTransactions (State + a bit, shard state)
+    activate SOLRAPIClient
+    SOLRAPIClient -> MetadataTracker: transactions + repo state
+    deactivate SOLRAPIClient
+    loop transactions
+       MetadataTracker -> SOLRAPIClient: getNodes (...)
+       activate SOLRAPIClient
+       SOLRAPIClient -> MetadataTracker: Nodes
+       deactivate SOLRAPIClient
+       loop Nodes
+          MetadataTracker -> SOLRAPIClient: getNodesMetaData (Some Nodes and predicates)
+          activate SOLRAPIClient
+          SOLRAPIClient -> MetadataTracker: NodeMetaData
+          deactivate SOLRAPIClient
+          MetadataTracker -> MetadataTracker: updateIndex
+       end
+       MetadataTracker -> MetadataTracker: allow commit
+    end
+    MetadataTracker -> MetadataTracker: allow commit
+ end
+ MetadataTracker -> MetadataTracker: allow commit
+ 
+ MetadataTracker -> Scheduler
+ deactivate MetadataTracker
+...
+Scheduler -> MetadataTracker: Run
+ center footer Copyright 2017 Alfresco Software Inc
+ @enduml

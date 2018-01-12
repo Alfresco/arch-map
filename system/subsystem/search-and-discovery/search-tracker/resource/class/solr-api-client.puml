@@ -1,0 +1,14 @@
+@startuml
+class SOLRAPIClient {
+  AclChangeSets getAclChangeSets(Long, Long, Long, Long, int)
+  List<AclReaders> getAclReaders(List<Acl>)
+  List<Acl> getAcls(List<AclChangeSet>, Long, int)
+  AlfrescoModel getModel(QName)
+  List<AlfrescoModelDiff> getModelsDiff(List<AlfrescoModel>)
+  List<Node> getNodes(GetNodesParameters, int)
+  List<NodeMetaData> getNodesMetaData(NodeMetaDataParameters, int)
+  GetTextContentResponse getTextContent(Long, QName, Long)
+  Transactions getTransactions(Long, Long, Long, Long, int)
+  TransactionsgetTransactions(Long, Long, Long, Long, int, ShardState)
+}
+@enduml
