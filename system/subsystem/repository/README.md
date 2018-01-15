@@ -1,7 +1,6 @@
 # Repository
 
-Welcome to the Repository Subsystem.
+Welcome to the Alfresco Repository Subsystem.
 
-## Components
 
-* [ ] [Meta-data Services](./meta-data-services)
+* [Technical documentation for Community Edition components](https://github.com/Alfresco/alfresco-repository/tree/master/docs)
